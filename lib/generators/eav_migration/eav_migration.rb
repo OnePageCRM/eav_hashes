@@ -11,7 +11,9 @@ class EavMigrationGenerator < ActiveRecord::Generators::Base
 
   def create_eav_migration
     p name
-    migration_template "eav_migration.erb", "db/migrate/#{migration_file_name}.rb"
+    adapter_name = ActiveRecord::Base.connection.adapter_name
+    template_name = 'eav_' + (adapter_name == 'Kudu' ? 'kudu_' : '') + 'migration.erb'
+    migration_template template_name, "db/migrate/#{migration_file_name}.rb"
   end
 
   def migration_file_name

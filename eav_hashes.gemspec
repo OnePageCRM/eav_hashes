@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
   s.files = Dir["lib/**/*"] + %w(init.rb MIT-LICENSE Rakefile README.md)
   s.test_files = Dir["spec/**/*"]
 
-#  s.add_dependency "rails", "~> 3.2.7"
   s.add_dependency "rails", ">= 3.2.7"
   s.add_development_dependency "sqlite3"
 end

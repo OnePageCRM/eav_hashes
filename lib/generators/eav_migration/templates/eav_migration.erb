@@ -6,10 +6,8 @@ class <%= migration_name %> < ActiveRecord::Migration
       t.text :value, :null => false
       t.integer :value_type, :null => false
       t.boolean :symbol_key, :null => false, :default => true
-
       t.timestamps
     end
-
     add_index :<%= table_name %>, :<%= model_association_name %>_id
     add_index :<%= table_name %>, :entry_key
   end

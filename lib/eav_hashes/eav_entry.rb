@@ -11,6 +11,9 @@ module ActiveRecord
       # prevent activerecord from thinking we're trying to do STI
       self.abstract_class = true
 
+      # Set field ID for entry item
+      before_save :set_field_id
+
       # Tell ActiveRecord to convert the value to its DB storable format
       before_save :serialize_value
 
@@ -81,6 +84,13 @@ module ActiveRecord
       # Sets the value_type column to the appropriate value based on the value's type
       def update_value_type
         write_attribute :value_type, EavEntry.get_value_type(@value)
+      end
+
+      def set_field_id
+        # With our Kudu adapter we're not able to use autoincrement fields
+        return unless ActiveRecord::Base.connection.adapter_name == 'Kudu'
+        id_value = read_attribute :id
+        write_attribute :id, ::BSON::ObjectId.new.to_s if id_value.nil?
       end
 
       # Converts the value to its database-storable form and tells ActiveRecord that it's been changed (if it has)
