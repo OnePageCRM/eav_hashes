@@ -88,7 +88,7 @@ module ActiveRecord
 
       def set_field_id
         # With our Kudu adapter we're not able to use autoincrement fields
-        return unless ActiveRecord::Base.connection.adapter_name == 'Kudu'
+        return unless %w(Kudu Mysql2).include?(ActiveRecord::Base.connection.adapter_name)
         id_value = read_attribute :id
         write_attribute :id, ::BSON::ObjectId.new.to_s if id_value.nil?
       end
